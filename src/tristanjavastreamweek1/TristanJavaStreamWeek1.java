@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author Aidan
+ * @author TristanH
  */
 public class TristanJavaStreamWeek1 {
 
