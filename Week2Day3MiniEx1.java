@@ -78,7 +78,7 @@ public class Week2Day3MiniEx1 {
         } else {
         
             for (int i = 0; i < str.length(); i++) {
-                if (0<=str.charAt(i) && str.charAt(i)>=9) {
+                if ('0'<=str.charAt(i) && str.charAt(i)<='9') {
                     countNum++;
                 } 
                 
