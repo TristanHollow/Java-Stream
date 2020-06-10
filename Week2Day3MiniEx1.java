@@ -83,8 +83,8 @@ public class Week2Day3MiniEx1 {
                 } 
                 
                 
-                else  if (('a'>=str.charAt(i) && str.charAt(i)<='z') || 
-                ('A'>=str.charAt(i) && str.charAt(i)<='Z')) {
+                else  if (('a'<=str.charAt(i) && str.charAt(i)<='z') || 
+                ('A'<=str.charAt(i) && str.charAt(i)<='Z')) {
                         countChar++;
                     }
                 
