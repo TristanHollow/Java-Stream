@@ -1,22 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package week2day4miniex1;
-
 import java.util.Arrays;
 import java.util.Scanner;
 
-/**
- *
- * @author TristanH
- */
 public class Week2Day4MiniEx1 {
 
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String[] args) {
         // sort numerical and string arrays
         
