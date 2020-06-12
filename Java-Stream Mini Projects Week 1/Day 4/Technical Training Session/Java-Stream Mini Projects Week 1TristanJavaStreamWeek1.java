@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class TristanJavaStreamWeek1 {
+public class TristanJavaStreamWeek1MiniProgram1 {
 
     public static void main(String[] args) {
         // count to specific value
