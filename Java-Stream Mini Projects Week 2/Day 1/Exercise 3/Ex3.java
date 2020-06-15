@@ -4,7 +4,6 @@ public class Ex3 {
 
     public static void main(String[] args) {
         // receive a number between 1 and 7 and print out the corresponding day of the week
-        // generate a random number if it is not given by the user
         
         System.out.println("Please input a number between 1 and 7.");
         
