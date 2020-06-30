@@ -16,13 +16,14 @@ public class Foosball {
 
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/foosball","root","root");
+
             String sql = "";
             Statement stmt;
             switch (chosenOption) {
                 case 0:
 
                     sql = "CREATE TABLE Player(" +
-                    "Player_Id INT PRIMARY KEY, Name VARCHAR(100), Age INT, Matches INT)";
+                    "Player_Id INT AUTO_INCREMENT NOT NULL, Name VARCHAR(100), Age INT, Matches INT, PRIMARY KEY(Player_Id))";
 
                     stmt = conn.createStatement();
                     stmt.executeUpdate(sql);
@@ -71,6 +72,7 @@ public class Foosball {
             conn.close();  
              } catch (SQLException ex) {
                 System.out.println("An error has occurred.");
+                ex.printStackTrace();
              }
     }
 
@@ -80,34 +82,34 @@ public class Foosball {
         try {
             name = JOptionPane.showInputDialog(null, "What is the player's name?");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "The player's name has been set to" + input + ".");
+            JOptionPane.showMessageDialog(null, "The player's name has been set to " + input + ".");
         }
 
         return name;
 
     }
 
-    public static String readInAge(int input) {
+    public static int readInAge(int input) {
         int age = input;
         try {
             age = Integer.valueOf(JOptionPane.showInputDialog(null, "What is the player's age?"));
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "The player's age has been set to" + input + ".");
+            JOptionPane.showMessageDialog(null, "The player's age has been set to " + String.valueOf(input) + ".");
         }
 
-        return String.valueOf(age);
+        return age;
 
     }
 
-    public static String readInMatches(int input) {
+    public static int readInMatches(int input) {
         int matches = input;
         try {
             matches = Integer.valueOf(JOptionPane.showInputDialog(null, "How many matches has the player participated in?"));
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "The player's amount of matches has been set to" + input + ".");
+            JOptionPane.showMessageDialog(null, "The player's amount of matches has been set to " + String.valueOf(input) + ".");
         }
 
-        return String.valueOf(matches);
+        return matches;
 
     }
 
