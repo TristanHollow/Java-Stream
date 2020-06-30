@@ -7,25 +7,12 @@ public class Foosball {
         Connection conn = null;
 
         try {
-            /*Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/foosball","root","root");
-            String sql = "CREATE TABLE Player (" +
-                "Player_Id INT PRIMARY KEY, Name VARCHAR(100), Age INT, Matches INT)";
-
-            Statement stmt = conn.createStatement();
-            stmt.executeUpdate(sql);*/
-
-
-            //int index = JOptionPane.showInputDialog(null, "What would you like to do?", );
-
 
             String[] options = {"Create the table", "Update the table", "Print out the table"};
         
             int chosenOption = JOptionPane.showOptionDialog(null, "What would you like to do? ", "Foosball",
                     JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
             
-            //String chosen = "";
-            //int calcOption = 0;
 
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/foosball","root","root");
@@ -33,22 +20,16 @@ public class Foosball {
             Statement stmt;
             switch (chosenOption) {
                 case 0:
-                    //chosen = "withdraw";
-                    //calcOption = -1;
 
-                    //Class.forName("com.mysql.cj.jdbc.Driver");
-                    //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/foosball","root","root");
                     sql = "CREATE TABLE Player(" +
                     "Player_Id INT PRIMARY KEY, Name VARCHAR(100), Age INT, Matches INT)";
 
                     stmt = conn.createStatement();
                     stmt.executeUpdate(sql);
 
-                    //conn.close();  
+
                     break;
                 case 1:
-                    //chosen = "deposit";
-                    //calcOption = 1;
 
                     sql = "INSERT INTO Player(Name, Age, Matches) VALUES('"+ readInName("Bob") +"','"+ readInAge(18) +"','"+ readInMatches(2) +"')";
 
@@ -63,8 +44,6 @@ public class Foosball {
                     
                     break;
                 case 2:
-                    //JOptionPane.showMessageDialog(null, "Transaction successfully cancelled.");
-                    //System.exit(0);
 
                     sql = "SELECT * FROM Player";
                         
