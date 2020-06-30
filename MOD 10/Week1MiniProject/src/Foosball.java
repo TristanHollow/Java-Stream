@@ -38,7 +38,7 @@ public class Foosball {
 
                     //Class.forName("com.mysql.cj.jdbc.Driver");
                     //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/foosball","root","root");
-                    sql = "CREATE TABLE Player (" +
+                    sql = "CREATE TABLE Player(" +
                     "Player_Id INT PRIMARY KEY, Name VARCHAR(100), Age INT, Matches INT)";
 
                     stmt = conn.createStatement();
@@ -66,7 +66,7 @@ public class Foosball {
                     //JOptionPane.showMessageDialog(null, "Transaction successfully cancelled.");
                     //System.exit(0);
 
-                    sql = "SELECT * FROM Foosball";
+                    sql = "SELECT * FROM Player";
                         
                     stmt = conn.createStatement();
                     ResultSet result = stmt.executeQuery(sql);
@@ -108,7 +108,7 @@ public class Foosball {
 
     }
 
-    public static int readInAge(int input) {
+    public static String readInAge(int input) {
         int age = input;
         try {
             age = Integer.valueOf(JOptionPane.showInputDialog(null, "What is the player's age?"));
@@ -116,19 +116,19 @@ public class Foosball {
             JOptionPane.showMessageDialog(null, "The player's age has been set to" + input + ".");
         }
 
-        return age;
+        return String.valueOf(age);
 
     }
 
-    public static int readInMatches(int input) {
+    public static String readInMatches(int input) {
         int matches = input;
         try {
             matches = Integer.valueOf(JOptionPane.showInputDialog(null, "How many matches has the player participated in?"));
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "The player's age has been set to" + input + ".");
+            JOptionPane.showMessageDialog(null, "The player's amount of matches has been set to" + input + ".");
         }
 
-        return matches;
+        return String.valueOf(matches);
 
     }
 
