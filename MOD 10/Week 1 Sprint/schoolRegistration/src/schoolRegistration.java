@@ -36,7 +36,15 @@ public class schoolRegistration {
                         //learner
 
                         int learnerID = getRecordID("learner");
-    
+
+                        if (learnerID == -2) {
+                            break;
+                        }
+
+                        if (learnerID == -1) {
+                            break;
+                        }
+
                         if (recordExists(learnerID, databaseName, "learner_tbl") == true) {
 
                             String[] optionsNormalDo = {"YES", "NO"};
@@ -54,7 +62,8 @@ public class schoolRegistration {
                                     break;
                                 default:
                                     JOptionPane.showMessageDialog(null, "An error has occurred.");
-                                    System.exit(0);
+                                    
+                                    break;
                             }   
 
                         } else {
@@ -67,6 +76,14 @@ public class schoolRegistration {
                         //parent
 
                         int parentID = getRecordID("parent");
+
+                        if (parentID == -2) {
+                            break;
+                        }
+
+                        if (parentID == -1) {
+                            break;
+                        }
     
                         if (recordExists(parentID, databaseName, "parent_tbl") == true) {
 
@@ -85,7 +102,8 @@ public class schoolRegistration {
                                     break;
                                 default:
                                     JOptionPane.showMessageDialog(null, "An error has occurred.");
-                                    System.exit(0);
+                                    
+                                    break;
                             }   
 
                         } else {
@@ -96,10 +114,10 @@ public class schoolRegistration {
                         case 2:
                             break;
                         default:
-                            JOptionPane.showMessageDialog(null, "An error has occurred.");
-                            System.exit(0);
+                            
+                            break;
                     }
-
+                    //JOptionPane.showMessageDialog(null, "Invalid input entered.");
                 continue;
             case 1:
                 //print
@@ -121,8 +139,8 @@ public class schoolRegistration {
                         case 2:
                             break;
                         default:
-                            JOptionPane.showMessageDialog(null, "An error has occurred.");
-                            System.exit(0);
+                            
+                            break;
                     }
 
                 continue;
@@ -134,25 +152,39 @@ public class schoolRegistration {
                 bAccess = false;
                 continue;
             default:   
-                //default
-                JOptionPane.showMessageDialog(null, "An error has occurred.");
-                System.exit(0);
+                
+                bAccess = false;
+                continue;
         }
         
     }
-    JOptionPane.showMessageDialog(null, "Program successfully terminated.");
-    System.exit(0);
 
+    JOptionPane.showMessageDialog(null, "Closing program...");
+    System.exit(0);
 
     }
 
     // username & password function => for Admins
 
-    public static boolean testAdmin(String input) {
+    public static boolean cancelTrue(boolean input) {
+        return input;
+    }
+
+
+    public static String askAdmin(String input) {
+        
+        String scanned = JOptionPane.showInputDialog(null, "What is your "+ input +"?");
+
+        return scanned;
+
+    }
+
+
+    public static boolean testAdmin(String option, String input) {
 
         String testIt = "";
 
-        switch (input) {
+        switch (option) {
             case "username":
                 testIt = "userName";
                 break;
@@ -170,7 +202,8 @@ public class schoolRegistration {
 
         try {
  
-            scanned = JOptionPane.showInputDialog(null, "What is your "+ input +"?");
+            scanned = input;
+
             if (testIt.equals(scanned)) {
 
                 return true;
@@ -181,7 +214,7 @@ public class schoolRegistration {
 
 
         } catch (Exception e) {
-            System.out.println("Invalid " + input + ".");
+            System.out.println("Invalid " + option + ".");
             e.printStackTrace();
         }
 
@@ -202,11 +235,11 @@ public class schoolRegistration {
 
             switch(input) {
                 case "learner_tbl":
-                    sql = "CREATE TABLE " + input + "(" +
+                    sql = "CREATE TABLE IF NOT EXISTS " + input + "(" +
                     "learner_id INT AUTO_INCREMENT NOT NULL, names VARCHAR(100), last_name VARCHAR(100), date_of_birth VARCHAR(10), gender VARCHAR(10), grade INT, PRIMARY KEY(learner_id))";
                     break;
                 case "parent_tbl":
-                    sql = "CREATE TABLE " + input + "(" +
+                    sql = "CREATE TABLE IF NOT EXISTS " + input + "(" +
                     "parent_id INT AUTO_INCREMENT NOT NULL, names VARCHAR(100), last_name VARCHAR(100), address VARCHAR(50), contact_no VARCHAR(50), num_children INT, PRIMARY KEY(parent_id))";
                     break;
             }
@@ -225,6 +258,15 @@ public class schoolRegistration {
 
     public static void tableInsert(String input, String databaseName, String table, String recordID){
 
+        JOptionPane.showMessageDialog(null, "Please answer the following questions...");
+
+        boolean bParent = false;
+        boolean bLearner = false;
+        boolean bInsert = false;
+        boolean bDelete = false;
+
+        String returnMessage = "";
+
         Connection conn = null;
 
         try {
@@ -232,29 +274,117 @@ public class schoolRegistration {
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databaseName,"root","root");
 
             String sql = "";
+            //learner + parent
+            String names = "";
+            String surname = "";
+            //parent
+            String address = "";
+            String contactNo = "";
+            int numChildren = 0;
+            //learner
+            String dob = "";
+            String gender = "";
+            int grade = 0;
+
 
             if (table.equals("learner_tbl")) {
 
+                bLearner = true;
+
             switch (input) {
                 case "insert":
-                    sql = "INSERT INTO learner_tbl(names, last_name, date_of_birth, gender, grade) VALUES('"+ readInNames("learner") +
-                    "','"+ readInSurname("learner") +"','"+ readInBirthdate() +"','"+ readInGender() +"','"+ readInGrade() +"')";
+
+                    bInsert = true;
+
+                    names = readInNames("learner");
+
+                    if (isNull(names) == true) {
+                        return;
+                    }
+
+                    surname = readInSurname("learner");
+
+                    if (isNull(surname) == true) {
+                        return;
+                    }
+
+                    dob = readInBirthdate();
+
+                    if (isNull(dob) == true) {
+                        return;
+                    }
+
+                    gender = readInGender();
+
+                    if (isNull(gender) == true) {
+                        return;
+                    }
+
+                    grade = readInGrade();
+
+                    if (isNull(String.valueOf(grade)) == true) {
+                        return;
+                    }
+
+                    sql = "INSERT INTO learner_tbl(names, last_name, date_of_birth, gender, grade) VALUES('"+ names +
+                    "','"+ surname +"','"+ dob +"','"+ gender +"','"+ grade +"')";
                     
                     break;
               
                 case "delete":
+
+                    bDelete = true;
+
                     sql = "DELETE FROM learner_tbl WHERE(learner_id = " + recordID + ")"; //delete
                     break;
             }
             } else if (table.equals("parent_tbl")) {
+
+                bParent = true;
                 switch (input) {
                     case "insert":
-                        sql = "INSERT INTO parent_tbl(names, last_name, address, contact_no, num_children) VALUES('"+ readInNames("parent") +
-                        "','"+ readInSurname("parent") +"','"+ readInAddress() +"','"+ readInContactNo() +"','"+ readInNumChildren() +"')";
+
+                        bInsert = true;
+
+                        names = readInNames("parent");
+
+                        if (isNull(names) == true) {
+                            return;
+                        }
+
+                        surname = readInSurname("parent");
+
+                        if (isNull(surname) == true) {
+                            return;
+                        }
+
+                        address = readInAddress();
+
+                        if (isNull(address) == true) {
+                            return;
+                        }
+
+                        contactNo = readInContactNo();
+
+                        if (isNull(contactNo) == true) {
+                            return;
+                        }
+
+                        numChildren = readInNumChildren();
+
+                        if (isNull(String.valueOf(numChildren)) == true) {
+                            return;
+                        }
                         
+                        sql = "INSERT INTO parent_tbl(names, last_name, address, contact_no, num_children) VALUES('"+ names +
+                        "','"+ surname +"','"+ address +"','"+ contactNo +"','"+ numChildren +"')";
+
                         break;
                    
                     case "delete":
+
+                        bDelete = true;
+
                         sql = "DELETE FROM parent_tbl WHERE(parent_id = " + recordID + ")"; //delete
                         break;
                 }
@@ -265,6 +395,16 @@ public class schoolRegistration {
     
     
             stmt.executeUpdate(sql);
+
+            if ((bParent == true) && (bDelete == true)) {
+                returnMessage = "Parent was successfully removed from the database.";
+            } else if ((bParent == true) && (bInsert == true)) {
+                returnMessage = "Parent has been successfully added to the database.";
+            } else if ((bLearner == true) && (bDelete == true)) {
+                returnMessage = "Learner was successfully removed from the database.";
+            } else if ((bLearner == true) && (bInsert == true)) {
+                returnMessage = "Learner has been successfully added to the database.";
+            }
         
 
             conn.close();  
@@ -272,6 +412,12 @@ public class schoolRegistration {
             System.out.println("An error has occurred.");
             ex.printStackTrace();
         }
+
+        if (isNull(returnMessage) == true) {
+            return;
+        }
+        
+        JOptionPane.showMessageDialog(null, returnMessage);
     }
 
 
@@ -312,6 +458,10 @@ public class schoolRegistration {
         try {
             dD = JOptionPane.showInputDialog(null, "What day was the learner born?");
 
+            if (isNull(dD) == true) {
+                return "";
+            }
+
             switch (dD) {
                 case "1":
                     dD = "01";
@@ -343,6 +493,10 @@ public class schoolRegistration {
             }
 
             mM = JOptionPane.showInputDialog(null, "What month was the learner born?");
+
+            if (isNull(mM) == true) {
+                return "";
+            }
 
             switch (mM.toLowerCase()) {
                 case "1":
@@ -418,9 +572,15 @@ public class schoolRegistration {
                 case "december":
                     mM = "12";
                     break;
+                default:
+                    return "";
             }
 
             yYYY = JOptionPane.showInputDialog(null, "What year was the learner born?");
+
+            if (isNull(yYYY) == true) {
+                return "";
+            }
 
             dob = dD + "/" + mM + "/" + yYYY;
         } catch (Exception e) {
@@ -499,13 +659,23 @@ public class schoolRegistration {
     }
 
     public static int getRecordID(String person) {
-        int output = 0;
+        int output = -1;
+        
+
         try {
-            output = Integer.valueOf(JOptionPane.showInputDialog(null, "What is the "+ person +"'s "+person+" ID?"));
+            String testNull = JOptionPane.showInputDialog(null, "What is the "+ person +"'s "+person+" ID?");
+
+            if (testNull == null) {
+                output = -2;
+            } else if (testNull == "") {
+                output = -1;
+            } else {
+                output = Integer.valueOf(testNull);
+            }
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "The "+ person +"'s "+person+" ID is invalid.");
-            e.printStackTrace();
-            System.exit(0);
+            
+           // e.printStackTrace();
         }
 
         return output;
@@ -522,7 +692,7 @@ public class schoolRegistration {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "The ID is invalid.");
             e.printStackTrace();
-            System.exit(0);
+            
         }
         
         
@@ -569,6 +739,7 @@ public class schoolRegistration {
                         String gender = result.getString("gender");
                         String grade = String.valueOf(result.getInt("grade"));
 
+                        System.out.println("");
                         System.out.println(" Learner ID: " + learnerID + "\r\n Full Name: " + name + " " + surname + "\r\n Date Of Birth: " + birthdate + "\r\n Gender: " + gender + "\r\n Grade: " + grade);
                         System.out.println("");
                     }
@@ -582,6 +753,7 @@ public class schoolRegistration {
                     String gender = result.getString("gender");
                     String grade = String.valueOf(result.getInt("grade"));
 
+                    System.out.println("");
                     System.out.println(" Learner ID: " + learnerID + "\r\n Full Name: " + name + " " + surname + "\r\n Date Of Birth: " + birthdate + "\r\n Gender: " + gender + "\r\n Grade: " + grade); 
                     System.out.println("");
                 }
@@ -600,6 +772,7 @@ public class schoolRegistration {
                         String contactNo = result.getString("contact_no");
                         String numChildren = String.valueOf(result.getInt("num_children"));
 
+                        System.out.println("");
                         System.out.println(" Parent ID: " + parentID + "\r\n Full Name: " + name + " " + surname + "\r\n Address: " + address + "\r\n Contact Number: " + contactNo + "\r\n Number of Children: " + numChildren);
                         System.out.println("");
                     }
@@ -613,6 +786,7 @@ public class schoolRegistration {
                     String contactNo = result.getString("contact_no");
                     String numChildren = String.valueOf(result.getInt("num_children"));
 
+                    System.out.println("");
                     System.out.println(" Parent ID: " + parentID + "\r\n Full Name: " + name + " " + surname + "\r\n Address: " + address + "\r\n Contact Number: " + contactNo + "\r\n Number of Children: " + numChildren);
                     System.out.println("");
                 }
@@ -626,6 +800,7 @@ public class schoolRegistration {
         } catch (SQLException | ClassNotFoundException ex) {
             System.out.println("An error has occurred.");
             ex.printStackTrace();
+            return;
         }
             
     }
@@ -634,6 +809,10 @@ public class schoolRegistration {
 
     public static boolean recordExists(int recordID, String databaseName, String tabel){
         
+        if (isNull(String.valueOf(recordID)) == true) {
+            return false;
+        }
+
         Boolean bExists = false;
 
         Connection conn = null;
@@ -688,8 +867,23 @@ public class schoolRegistration {
         
         while (bAdmin == true) {
             
-            boolean bUsername = testAdmin("username");
-            boolean bPassword = testAdmin("password");
+            String username = askAdmin("username");
+
+            if (username == null) {
+                return;
+            }
+            
+            boolean bUsername = testAdmin("username", username);
+
+            
+
+            String password = askAdmin("password");
+
+            if (password == null) {
+                return;
+            }
+
+            boolean bPassword = testAdmin("password", password);
 
     
             if ((bUsername == true) && (bPassword == true)) {
@@ -718,9 +912,6 @@ public class schoolRegistration {
                                 break;
                             case 2:
                                 continue;
-                            default:
-                                JOptionPane.showMessageDialog(null, "An error has occurred.");
-                                System.exit(0);
                         }
     
                         //create
@@ -732,9 +923,8 @@ public class schoolRegistration {
     
                             switch (chosenLearnerOption) {
                                 case 0:
-                                    JOptionPane.showMessageDialog(null, "Please answer the following questions...");
+                                    
                                     tableInsert("insert", databaseName, "learner_tbl", "");
-                                    JOptionPane.showMessageDialog(null, "Learner has been successfully added to the database.");
                                     
                                     continue;
                                 case 1:
@@ -745,6 +935,15 @@ public class schoolRegistration {
                                 case 2:
     
                                     int learnerID = getRecordID("learner");
+
+                                    if (learnerID == -2) {
+                                        break;
+                                    }
+                                    
+                                    if (learnerID == -1) {
+                                        JOptionPane.showMessageDialog(null, "Invalid input.");
+                                        break;
+                                    }
     
                                     if (recordExists(learnerID, databaseName, "learner_tbl") == true) {
         
@@ -761,23 +960,22 @@ public class schoolRegistration {
                                           
                                                 continue;
                                             case 1:
-                                                tableInsert("delete", databaseName, "learner_tbl", String.valueOf(learnerID)); //...
-                                                JOptionPane.showMessageDialog(null, "Learner was successfully removed from the database.");
+                                                tableInsert("delete", databaseName, "learner_tbl", String.valueOf(learnerID));
                                                 
                                                 continue;
                                             case 2:
                                                 
-                                                System.exit(0);
+                                                //System.exit(0);
                                                 
                                                 continue;
                                             default:
                                                 JOptionPane.showMessageDialog(null, "An error has occurred.");
-                                                System.exit(0);
+                                                //System.exit(0);
                                         }   
     
                                     } else {
                                         JOptionPane.showMessageDialog(null, "The learner could not be found.");
-                                        System.exit(0);
+                                        //System.exit(0);
                                     }
                                     
                                     break;
@@ -786,7 +984,7 @@ public class schoolRegistration {
                                     continue;
                                 default:
                                     JOptionPane.showMessageDialog(null, "An error has occurred.");
-                                    System.exit(0);
+                                    //System.exit(0);
                             }
     
     
@@ -808,11 +1006,8 @@ public class schoolRegistration {
                                 
                                 break;
                             case 2:
-                                
+
                                 continue;
-                            default:
-                                JOptionPane.showMessageDialog(null, "An error has occurred.");
-                                System.exit(0);
                         }
     
                         //create 
@@ -824,9 +1019,7 @@ public class schoolRegistration {
     
                             switch (chosenParentOption) {
                                 case 0:
-                                    JOptionPane.showMessageDialog(null, "Please answer the following questions...");
                                     tableInsert("insert", databaseName, "parent_tbl", "");
-                                    JOptionPane.showMessageDialog(null, "Parent has been successfully added to the database.");
                                     
                                     continue;
                                 case 1:
@@ -835,8 +1028,17 @@ public class schoolRegistration {
                                     
                                     continue;
                                 case 2:
-    
+
                                     int parentID = getRecordID("parent");
+
+                                    if (parentID == -2) {
+                                        break;
+                                    }
+
+                                    if (parentID == -1) {
+                                        JOptionPane.showMessageDialog(null, "Invalid input.");
+                                        break;
+                                    }
     
                                     if (recordExists(parentID, databaseName, "parent_tbl") == true) {
         
@@ -853,16 +1055,12 @@ public class schoolRegistration {
                                                 
                                                 continue;
                                             case 1:
-                                                tableInsert("delete", databaseName, "parent_tbl", String.valueOf(parentID)); //...
-                                                JOptionPane.showMessageDialog(null, "Parent was successfully removed from the database.");
+                                                tableInsert("delete", databaseName, "parent_tbl", String.valueOf(parentID));
                                                 
                                                 continue;
                                             case 2:
                                                 
                                                 continue;
-                                            default:
-                                                JOptionPane.showMessageDialog(null, "An error has occurred.");
-                                                System.exit(0);
                                         }   
     
                                     } else {
@@ -875,9 +1073,7 @@ public class schoolRegistration {
                                 case 3:
                                    
                                     continue;
-                                default:
-                                    JOptionPane.showMessageDialog(null, "An error has occurred.");
-                                    System.exit(0);
+                              
                             }
     
     
@@ -888,7 +1084,6 @@ public class schoolRegistration {
                         continue aa;
 
                     default:
-                        JOptionPane.showMessageDialog(null, "An error has occurred.");
                         
                         bAdmin = false;
                         continue aa;
@@ -906,6 +1101,14 @@ public class schoolRegistration {
             }
             
         }
+    }
+
+    public static boolean isNull(String test) {
+        if ((test == null) || (test != null && ("".equals(test)) )) {
+            return true;
+        }
+
+        return false;
     }
 
 }
