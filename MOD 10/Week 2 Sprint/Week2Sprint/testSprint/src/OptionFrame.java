@@ -241,7 +241,7 @@ switch (Mod10Week2Sprint.loginPerson){
         btnTeacher.setVisible(false);
         btnParent.setVisible(false);
         break;
-        
+
     case "teacher":
         btnCreate.setVisible(false);
         btnDelete.setVisible(false);
@@ -249,6 +249,10 @@ switch (Mod10Week2Sprint.loginPerson){
         btnUpdate.setVisible(false);
         
         btnTeacher.setVisible(false);
+        break;
+
+    case "admin":
+        btnUpdate.setVisible(false);
         break;
 
     default:
