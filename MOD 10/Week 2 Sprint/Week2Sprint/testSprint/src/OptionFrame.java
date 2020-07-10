@@ -1,3 +1,14 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+//import com.mysql.cj.xdevapi.Statement;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -42,7 +53,7 @@ public class OptionFrame extends javax.swing.JFrame {
         btnInsert = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -52,7 +63,7 @@ public class OptionFrame extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Learner ID", "Parent ID", "Name", "Surname", "Date of Birth", "Gender", "Grade"
             }
         ));
         tblOutput.setViewportView(jTable1);
@@ -220,39 +231,150 @@ public class OptionFrame extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+switch (Mod10Week2Sprint.loginPerson){
+    case "parent":
+        btnCreate.setVisible(false);
+        btnDelete.setVisible(false);
+        btnInsert.setVisible(false);
+        btnUpdate.setVisible(false);
+
+        btnTeacher.setVisible(false);
+        btnParent.setVisible(false);
+        break;
+        
+    case "teacher":
+        btnCreate.setVisible(false);
+        btnDelete.setVisible(false);
+        btnInsert.setVisible(false);
+        btnUpdate.setVisible(false);
+        
+        btnTeacher.setVisible(false);
+        break;
+
+    default:
+        break;
+}
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
+
+        if (Mod10Week2Sprint.recordExists("default") == true) {
+            System.out.println("Found the person");
+            tablePrintRecords("default");
+        } else {
+            System.out.println("Unfound the person");
+        }
+
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnLearnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLearnerActionPerformed
         // TODO add your handling code here:
+
+        Mod10Week2Sprint.table = "learner_tbl";
+        tablePrintRecords("login");
+
     }//GEN-LAST:event_btnLearnerActionPerformed
 
     private void btnParentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnParentActionPerformed
         // TODO add your handling code here:
+
+        Mod10Week2Sprint.table = "parent_tbl";
+        tablePrintRecords("login");
+
     }//GEN-LAST:event_btnParentActionPerformed
 
     private void btnTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTeacherActionPerformed
         // TODO add your handling code here:
+
+        Mod10Week2Sprint.table = "teacher_tbl";
+        tablePrintRecords("login");
+
     }//GEN-LAST:event_btnTeacherActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
+
+        // if (Mod10Week2Sprint.table.equals("learner_tbl")) {
+        //     learnerFrame learnframe = new learnerFrame();
+        //     learnframe.setVisible(true);
+        // } else if (Mod10Week2Sprint.table.equals("parent_tbl") || Mod10Week2Sprint.table.equals("teacher_tbl")) {
+        //     otherFrame oFrame = new otherFrame();
+        //     oFrame.setVisible(true);
+        // }
+
+        int originalID = Mod10Week2Sprint.recordID;
+        int replacement = Mod10Week2Sprint.getRecordID();
+
+
+        if (Mod10Week2Sprint.testRecord(String.valueOf( replacement )) == true) {
+
+            Mod10Week2Sprint.recordID = replacement;
+
+            if (Mod10Week2Sprint.recordExists("default") == true) {
+                if (Mod10Week2Sprint.table.equals("learner_tbl")) {
+                    learnerFrame learnframe = new learnerFrame();
+                    learnframe.setVisible(true);
+                } else if (Mod10Week2Sprint.table.equals("parent_tbl")) {
+                    otherFrame oFrame = new otherFrame();
+                    oFrame.setVisible(true);
+                } if (Mod10Week2Sprint.table.equals("teacher_tbl")) {
+                    otherFrame oFrame = new otherFrame();
+                    oFrame.setVisible(true);
+                }
+            } else {
+                Mod10Week2Sprint.recordID = originalID;
+                JOptionPane.showMessageDialog(null, "An error has occurred.");
+
+            }
+        }
+
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         // TODO add your handling code here:
+
+        if (Mod10Week2Sprint.table.equals("learner_tbl")) {
+            learnerFrame learnframe = new learnerFrame();
+            learnframe.setVisible(true);
+        } else if (Mod10Week2Sprint.table.equals("parent_tbl") || Mod10Week2Sprint.table.equals("teacher_tbl")) {
+            otherFrame oFrame = new otherFrame();
+            oFrame.setVisible(true);
+        }
+        
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
+
+        Mod10Week2Sprint.tableCreate();
+    
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
+
+        int originalID = Mod10Week2Sprint.recordID;
+        int replacement = Mod10Week2Sprint.getRecordID();
+
+
+
+        if (Mod10Week2Sprint.testRecord(String.valueOf(replacement)) == true) {
+            Mod10Week2Sprint.recordID = replacement;
+            if (Mod10Week2Sprint.recordExists("default") == true) {
+                Mod10Week2Sprint.tableDeleteRecords();
+            } else {
+
+                Mod10Week2Sprint.recordID = originalID;
+                JOptionPane.showMessageDialog(null, "An error has occurred.");
+            }
+        }
+
+
+        
+
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
@@ -300,10 +422,226 @@ public class OptionFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnTeacher;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTable jTable1;
+    private static javax.swing.JTable jTable1;
     private javax.swing.JPanel pnlAdmin;
     private javax.swing.JPanel pnlNonAdmin;
     private javax.swing.JPanel pnlTables;
     private javax.swing.JScrollPane tblOutput;
     // End of variables declaration//GEN-END:variables
+
+
+    public static void tablePrintRecords(String input){
+        
+        Connection conn = null;
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + Mod10Week2Sprint.databaseName,"root","root");
+            String sql = "";
+
+
+            //latest version
+
+
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery(sql);
+
+            DefaultTableModel model = new DefaultTableModel(new String[]{"Learner ID", "Parent ID", "Name", "Surname", "Date of Birth", "Gender", "Grade"}, 0);
+
+            if (input.equals("default")) { //login and table change
+            
+                if (Mod10Week2Sprint.table.equals("learner_tbl")) {
+
+                    model = new DefaultTableModel(new String[]{"Learner ID", "Parent ID", "Name", "Surname", "Date of Birth", "Gender", "Grade"}, 0);
+
+                    if (Mod10Week2Sprint.loginPerson.equals("parent")) {
+                        sql = "SELECT learner_id, parent_id, names, last_name, date_of_birth, gender, grade FROM learner_tbl " + 
+                        "WHERE(parent_id = " + Mod10Week2Sprint.loginID+")";
+                    } else if (Mod10Week2Sprint.loginPerson.equals("teacher")) {
+                        sql = "SELECT * FROM learner_tbl";
+                    } else if (Mod10Week2Sprint.loginPerson.equals("admin")) {
+                        sql = "SELECT * FROM learner_tbl";
+                    }
+
+                    while(result.next()) {
+
+                        String learnerID = String.valueOf(result.getInt("learner_id"));
+                        String parentID = String.valueOf(result.getInt("parent_id"));
+                        String name = result.getString("names");
+                        String surname = result.getString("last_name");
+                        String birthdate = result.getString("date_of_birth");
+                        String gender = result.getString("gender");
+                        String grade = String.valueOf(result.getInt("grade"));
+                
+                        model.addRow(new Object[]{learnerID, parentID, name, surname, birthdate, gender, grade});
+                    }
+
+                } else if (Mod10Week2Sprint.table.equals("parent_tbl")) {
+
+                    
+
+                    if (Mod10Week2Sprint.loginPerson.equals("teacher")) {
+                        
+                        model = new DefaultTableModel(new String[]{"Parent ID", "Name", "Surname", "Address", "Contact No", "Number of Children"}, 0);
+                        
+                        sql = "SELECT  FROM parent_tbl";
+
+                        while (result.next()) {
+                            String parentID = String.valueOf(result.getInt("parent_id"));
+                            String name = result.getString("names");
+                            String surname = result.getString("last_name");
+                            String address = result.getString("address");
+                            String contactNo = result.getString("contact_no");
+                            String numChildren = String.valueOf(result.getInt("num_children"));
+
+                            model.addRow(new Object[]{parentID, name, surname, address, contactNo, numChildren});
+                        }
+
+
+                    } else if (Mod10Week2Sprint.loginPerson.equals("admin")) {
+                        model = new DefaultTableModel(new String[]{"Parent ID", "Name", "Surname", "Address", "Contact No", "Number of Children", "Username", "Password"}, 0);
+
+                        sql = "SELECT * FROM parent_tbl";
+
+                        while (result.next()) {
+                            String parentID = String.valueOf(result.getInt("parent_id"));
+                            String name = result.getString("names");
+                            String surname = result.getString("last_name");
+                            String address = result.getString("address");
+                            String contactNo = result.getString("contact_no");
+                            String numChildren = String.valueOf(result.getInt("num_children"));
+                            String usernameModel = result.getString("username");
+                            String passwordModel = result.getString("password");
+
+                            model.addRow(new Object[]{parentID, name, surname, address, contactNo, numChildren, usernameModel, passwordModel});
+                        }
+                    }
+
+                    
+
+                } else if (Mod10Week2Sprint.table.equals("teacher_tbl")) {
+                    if (Mod10Week2Sprint.loginPerson.equals("admin")) {
+
+                        model = new DefaultTableModel(new String[]{"Teacher ID", "Username", "Password"}, 0);
+
+                        sql = "SELECT * FROM teacher_tbl";
+
+                        while (result.next()) {
+                            String teacherID = String.valueOf(result.getInt("parent_id"));
+                            String usernameModel = result.getString("username");
+                            String passwordModel = result.getString("password");
+
+                            model.addRow(new Object[]{teacherID, usernameModel, passwordModel});
+                        }
+                    }
+                }
+
+            } else if (input.equals("search")) { //search button
+
+                if (Mod10Week2Sprint.testRecord(String.valueOf( Mod10Week2Sprint.getRecordID() )) == true) {
+                    if (Mod10Week2Sprint.recordExists("default") == true) {
+
+                        if (Mod10Week2Sprint.table.equals("learner_tbl")) {
+                            model = new DefaultTableModel(new String[]{"Learner ID", "Parent ID", "Name", "Surname", "Date of Birth", "Gender", "Grade"}, 0);
+
+                            if (Mod10Week2Sprint.loginPerson.equals("parent")) {
+                                sql = "SELECT learner_id, parent_id, names, last_name, date_of_birth, gender, grade FROM learner_tbl " + 
+                                "WHERE(parent_id = " + Mod10Week2Sprint.loginID+")";
+                            } else if (Mod10Week2Sprint.loginPerson.equals("teacher")) {
+                                sql = "SELECT * FROM learner_tbl";
+                            } else if (Mod10Week2Sprint.loginPerson.equals("admin")) {
+                                sql = "SELECT * FROM learner_tbl";
+                            }
+        
+                            if(result.next()) {
+        
+                                String learnerID = String.valueOf(result.getInt("learner_id"));
+                                String parentID = String.valueOf(result.getInt("parent_id"));
+                                String name = result.getString("names");
+                                String surname = result.getString("last_name");
+                                String birthdate = result.getString("date_of_birth");
+                                String gender = result.getString("gender");
+                                String grade = String.valueOf(result.getInt("grade"));
+                        
+                                model.addRow(new Object[]{learnerID, parentID, name, surname, birthdate, gender, grade});
+                            }
+                                                
+                        } else if (Mod10Week2Sprint.table.equals("parent_tbl")) {
+                            
+                            if (Mod10Week2Sprint.loginPerson.equals("teacher")) {
+                        
+                                model = new DefaultTableModel(new String[]{"Parent ID", "Name", "Surname", "Address", "Contact No", "Number of Children"}, 0);
+                                
+                                sql = "SELECT * FROM parent_tbl";
+        
+                                if (result.next()) {
+                                    String parentID = String.valueOf(result.getInt("parent_id"));
+                                    String name = result.getString("names");
+                                    String surname = result.getString("last_name");
+                                    String address = result.getString("address");
+                                    String contactNo = result.getString("contact_no");
+                                    String numChildren = String.valueOf(result.getInt("num_children"));
+        
+                                    model.addRow(new Object[]{parentID, name, surname, address, contactNo, numChildren});
+                                }
+        
+        
+                            } else if (Mod10Week2Sprint.loginPerson.equals("admin")) {
+                                model = new DefaultTableModel(new String[]{"Parent ID", "Name", "Surname", "Address", "Contact No", "Number of Children", "Username", "Password"}, 0);
+        
+                                sql = "SELECT * FROM parent_tbl";
+        
+                                if (result.next()) {
+                                    String parentID = String.valueOf(result.getInt("parent_id"));
+                                    String name = result.getString("names");
+                                    String surname = result.getString("last_name");
+                                    String address = result.getString("address");
+                                    String contactNo = result.getString("contact_no");
+                                    String numChildren = String.valueOf(result.getInt("num_children"));
+                                    String usernameModel = result.getString("username");
+                                    String passwordModel = result.getString("password");
+        
+                                    model.addRow(new Object[]{parentID, name, surname, address, contactNo, numChildren, usernameModel, passwordModel});
+                                }
+                            }
+
+                        } else if (Mod10Week2Sprint.table.equals("teacher_tbl")) {
+                            if (Mod10Week2Sprint.loginPerson.equals("admin")) {
+
+                                model = new DefaultTableModel(new String[]{"Teacher ID", "Username", "Password"}, 0);
+        
+                                sql = "SELECT * FROM teacher_tbl";
+        
+                                if (result.next()) {
+                                    String teacherID = String.valueOf(result.getInt("parent_id"));
+                                    String usernameModel = result.getString("username");
+                                    String passwordModel = result.getString("password");
+        
+                                    model.addRow(new Object[]{teacherID, usernameModel, passwordModel});
+                                }
+                            
+                            }
+                        }
+
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "An error has occurred.");
+                    }
+                    
+                } 
+
+            }
+
+            jTable1.setModel(model);
+
+            conn.close();
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            System.out.println("An error has occurred.");
+            ex.printStackTrace();
+            return;
+        }
+            
+    }
+
 }

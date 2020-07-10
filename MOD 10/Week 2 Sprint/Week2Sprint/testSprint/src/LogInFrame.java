@@ -39,7 +39,7 @@ public class LogInFrame extends javax.swing.JFrame {
         tfUsername = new javax.swing.JTextField();
         tfPassword = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         btnClose.setText("Close");
         btnClose.addActionListener(new java.awt.event.ActionListener() {

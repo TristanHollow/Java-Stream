@@ -1,8 +1,10 @@
-import java.sql.Connection;
+/*import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+*/
+import java.sql.*;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -18,10 +20,10 @@ public class Mod10Week2Sprint {
 
     public static String databaseName = "week2sprint";
     public static String table = "learner_tbl";
-    public static int recordID = 0;
-    public static String person = "learner";
-    public static String loginPerson = "";
-    public static int loginID = 0;
+    public static int recordID = 1;
+    public static String person = "person";
+    public static String loginPerson = "admin";
+    public static int loginID = 1;
     public static String username = "";
     public static String password = "";
 
@@ -132,7 +134,7 @@ public class Mod10Week2Sprint {
                     break;
                 case "teacher_tbl":
                     sql = "CREATE TABLE IF NOT EXISTS " + table + "(" +
-                    "teacher_id INT AUTO_INCREMENT NOT NULL, username VARCHAR(100) NOT NULL, password VARCHAR(100) NOT NULL, names VARCHAR(100), last_name VARCHAR(100), address VARCHAR(50), contact_no VARCHAR(50), num_children INT, PRIMARY KEY(teacher_id), UNIQUE(username))";
+                    "teacher_id INT AUTO_INCREMENT NOT NULL, username VARCHAR(100) NOT NULL, password VARCHAR(100) NOT NULL, names VARCHAR(100), last_name VARCHAR(100), address VARCHAR(50), contact_no VARCHAR(50), PRIMARY KEY(teacher_id), UNIQUE(username))";
                     break;
             }
 
@@ -157,14 +159,6 @@ public class Mod10Week2Sprint {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databaseName,"root","root");
-
-            /*if (table.equals("learner_tbl")) {
-                sql = "DELETE FROM learner_tbl WHERE(learner_id = " + recordID + ")";
-            } else if (table.equals("parent_tbl")) {
-                sql = "DELETE FROM parent_tbl WHERE(parent_id = " + recordID + ")";
-            } else if (table.equals("teacher_tbl")) {
-                sql = "DELETE FROM teacher_tbl WHERE(teacher_id = " + recordID + ")";
-            }*/
 
             switch (table) {
                 case "learner_tbl":
@@ -194,7 +188,7 @@ public class Mod10Week2Sprint {
     }
 
     ////insert TRUE
-
+/*
     public static void tableInsertRecords(){
         Connection conn = null;
 
@@ -203,8 +197,8 @@ public class Mod10Week2Sprint {
             String names = "";
             String surname = "";
             //parent
-            String username = "";
-            String password = "";
+            String userName = "";
+            String passWord = "";
             String address = "";
             String contactNo = "";
             int numChildren = 0;
@@ -265,15 +259,15 @@ public class Mod10Week2Sprint {
                     break;
                 case "parent_tbl":
 
-                    username = "";
+                    userName = "";
 
-                    if (isNull(username) == true) {
+                    if (isNull(userName) == true) {
                         return;
                     }
 
-                    password = "";
+                    passWord = "";
 
-                    if (isNull(password) == true) {
+                    if (isNull(passWord) == true) {
                         return;
                     }
 
@@ -307,8 +301,8 @@ public class Mod10Week2Sprint {
                         return;
                     }
                     
-                    sql = "INSERT INTO parent_tbl(names, last_name, address, contact_no, num_children) VALUES('"+ names +
-                    "','"+ surname +"','"+ address +"','"+ contactNo +"','"+ numChildren +"')";    
+                    sql = "INSERT INTO parent_tbl(names, last_name, address, contact_no, num_children, username, password) VALUES('"+ names +
+                    "','"+ surname +"','"+ address +"','"+ contactNo +"','"+ numChildren +"','"+ userName +"','"+ passWord +"')";    
 
                     break;
                 case "teacher_tbl":
@@ -346,7 +340,7 @@ public class Mod10Week2Sprint {
 
     }
 
-    ///getRecordID from user
+  */  ///getRecordID from user
 
     public static int getRecordID() {
         int output = -1;
@@ -392,7 +386,7 @@ public class Mod10Week2Sprint {
 
     ///update TRUE 
 
-
+/*
     public static void tableUpdateRecords(){
         Connection conn = null;
 
@@ -456,9 +450,7 @@ public class Mod10Week2Sprint {
                     return;
                 }
 
-                /*sql = "INSERT INTO learner_tbl( parent_id, names, last_name, date_of_birth, gender, grade ) VALUES('" + parentID +
-                "','" + names +
-                "','"+ surname +"','"+ dob +"','"+ gender +"','"+ grade +"')";*/
+                
 
                     sql = "UPDATE learner_tbl SET " + 
                     "parent_id = " + parentID + ", names = " + names + ", " + 
@@ -511,8 +503,6 @@ public class Mod10Week2Sprint {
                         return;
                     }
                     
-                    /*sql = "INSERT INTO parent_tbl(names, last_name, address, contact_no, num_children) VALUES('"+ names +
-                    "','"+ surname +"','"+ address +"','"+ contactNo +"','"+ numChildren +"')";*/  
 
                     sql = "UPDATE learner_tbl SET " + 
                     "names = " + names + ", " + 
@@ -534,8 +524,6 @@ public class Mod10Week2Sprint {
                         return;
                     }
 
-                    /*sql = "INSERT INTO teacher_tbl(username, password) VALUES('"+ username +
-                    "','"+ password +"')";*/
                     
                     sql = "UPDATE learner_tbl SET " + 
                     "username = " + username + ", " + 
@@ -559,7 +547,7 @@ public class Mod10Week2Sprint {
 
     }
 
-
+*/
     ///login TRUE
 
     /*public static void loginForm(String userName, String passWord){
@@ -586,7 +574,7 @@ public class Mod10Week2Sprint {
 
 
     ///print TRUE
-
+/*
     public static void tablePrintRecords(String input){
         
         Connection conn = null;
@@ -616,7 +604,7 @@ public class Mod10Week2Sprint {
 
             //latest version
 
-
+/*
             Statement stmt = conn.createStatement();
             ResultSet result = stmt.executeQuery(sql);
 
@@ -797,6 +785,7 @@ public class Mod10Week2Sprint {
         
                                     model.addRow(new Object[]{teacherID, usernameModel, passwordModel});
                                 }
+                            
                             }
                         }
 
@@ -808,7 +797,7 @@ public class Mod10Week2Sprint {
                 } 
 
             }
-
+*/
             //////////////////////////////////////////////////////
             /*
                         
@@ -890,9 +879,9 @@ public class Mod10Week2Sprint {
 
 
             /////////////////////////////////////////
-                    jt.setModel(model);
+                 //   OptionFrame.tblOutput.setModel(model);
                     
-                    JScrollPane jscroll = new JScrollPane(jt);
+                    /*JScrollPane jscroll = new JScrollPane(jt);
                     
                     panel.add(jscroll);
                     jscroll.setHorizontalScrollBarPolicy(
@@ -902,9 +891,9 @@ public class Mod10Week2Sprint {
                     //panel.add(jscroll);
                     jf.add(panel);
                     jf.setSize(500, 500);
-                    jf.setVisible(true);
+                    jf.setVisible(true);*/
 
-
+/*
             conn.close();
 
         } catch (SQLException | ClassNotFoundException ex) {
@@ -915,7 +904,7 @@ public class Mod10Week2Sprint {
             
     }
 
-
+*/
     ///JTabel output
 
     /*private static void aidanTestRun() {
@@ -993,7 +982,7 @@ public class Mod10Week2Sprint {
 
              }
             else if ((bParent == true) && (bTeacher == true) && (bAdmin == false)) {
-
+                conn = null;
                try { 
                 
 
@@ -1002,14 +991,13 @@ public class Mod10Week2Sprint {
 
 
                 sql = "SELECT COUNT(1) FROM parent_tbl WHERE(username = "+ username + " AND password = " + password + ")";
-                //loginPerson = "parent";
                 
 
                 Statement stmt = conn.createStatement();
                 ResultSet result = stmt.executeQuery(sql);
 
                 if (result.next()) {
-                    int i = result.getInt("Found");
+                    int i = result.getInt(1);
                     if (i == 1) {
                         loginPerson = "parent";
                         return true;
@@ -1025,23 +1013,21 @@ public class Mod10Week2Sprint {
                     //TODO: handle exception
                     }
             } else if ((bParent == false) && (bTeacher == true) && (bAdmin == false)) {
-
+                conn = null;
                 try { 
-                 
- 
+                    
                  Class.forName("com.mysql.cj.jdbc.Driver");
                  conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databaseName,"root","root");
  
  
-                 sql = "SELECT COUNT(1) FROM teacher_tbl WHERE(username = "+ username + ", password = " + password + ")";
-                 //loginPerson = "parent";
+                 sql = "SELECT COUNT(1) FROM teacher_tbl WHERE(username = "+ username + " AND password = " + password + ")";
                  
  
                  Statement stmt = conn.createStatement();
                  ResultSet result = stmt.executeQuery(sql);
  
                  if (result.next()) {
-                     int i = result.getInt("Found");
+                     int i = result.getInt(1);
                      if (i == 1) {
                          loginPerson = "teacher";
                          return true;
@@ -1058,8 +1044,11 @@ public class Mod10Week2Sprint {
                      }
              }
         
-        
-        JOptionPane.showMessageDialog(null, "Invalid username/password.");
+        if ((bAdmin == false) && (bParent == false) && (bTeacher == false)) {
+            //JOptionPane.showMessageDialog(null, "Invalid username/password.");
+        return false;
+        }
+        //JOptionPane.showMessageDialog(null, "Invalid username/password.");
         return false;
     
     }
@@ -1084,15 +1073,15 @@ public class Mod10Week2Sprint {
 
             if (input.equals("login")) {
                 if ((loginSearch() == true) && (loginPerson.equals("parent"))) {
-                    sql = "SELECT parent_id FROM parent_tbl WHERE(username = "+ username + ", password = " + password + ")";
+                    sql = "SELECT parent_id FROM parent_tbl WHERE(username = "+ username + " AND password = " + password + ")";
                 } else if ((loginSearch() == true) && (loginPerson.equals("teacher"))) {
-                    sql = "SELECT teacher_id FROM teacher_tbl WHERE(username = "+ username + ", password = " + password + ")";
+                    sql = "SELECT teacher_id FROM teacher_tbl WHERE(username = "+ username + " AND password = " + password + ")";
                 }  else if ((loginSearch() == true) && (loginPerson.equals("admin"))) {
                     conn.close();
                     return true;
                 }
                 else {
-                    JOptionPane.showMessageDialog(null, "Invalid username/password.");
+                    //JOptionPane.showMessageDialog(null, "Invalid username/password.");
                     return false;
                 }
 
@@ -1201,7 +1190,7 @@ public class Mod10Week2Sprint {
             } 
             if (input.equals("default")) {
             if (result.next()) {
-                int i = result.getInt("Found");
+                int i = result.getInt(1);
                 if (i == 1) {
                     bExists = true;
                 } else {
@@ -1215,8 +1204,6 @@ public class Mod10Week2Sprint {
             System.out.println("An error has occurred.");
             ex.printStackTrace();
         }
-        
-        
         
         return bExists;
     }

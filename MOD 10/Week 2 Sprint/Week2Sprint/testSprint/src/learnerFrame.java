@@ -1,3 +1,7 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -45,7 +49,7 @@ public class learnerFrame extends javax.swing.JFrame {
         btnInsert = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tfName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -225,12 +229,187 @@ public class learnerFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblParentID;
     private javax.swing.JLabel lblSurname;
-    private javax.swing.JTextField tfDOB;
-    private javax.swing.JTextField tfGender;
-    private javax.swing.JTextField tfGrade;
-    private javax.swing.JTextField tfLearnerID;
-    private javax.swing.JTextField tfName;
-    private javax.swing.JTextField tfParentID;
-    private javax.swing.JTextField tfSurname;
+    private static javax.swing.JTextField tfDOB;
+    private static javax.swing.JTextField tfGender;
+    private static javax.swing.JTextField tfGrade;
+    private static javax.swing.JTextField tfLearnerID;
+    private static javax.swing.JTextField tfName;
+    private static javax.swing.JTextField tfParentID;
+    private static javax.swing.JTextField tfSurname;
     // End of variables declaration//GEN-END:variables
+
+            ///update TRUE 
+
+
+            public static void tableUpdateRecords(){
+                Connection conn = null;
+        
+                String sql = "";
+                    //learner + parent
+                    String names = "";
+                    String surname = "";
+                    //parent
+                    String userName = "";
+                    String passWord = "";
+                    String address = "";
+                    String contactNo = "";
+                    int numChildren = 0;
+                    //learner
+                    String dob = "";
+                    String gender = "";
+                    int grade = 0;
+                    int parentID = 0;
+        
+                try {
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + Mod10Week2Sprint.databaseName,"root","root");
+        
+        
+                    switch (Mod10Week2Sprint.table) {
+                        case "learner_tbl":
+        
+                        parentID = 0;
+        
+                        if (Mod10Week2Sprint.isNull(String.valueOf(parentID)) == true) {
+                            return;
+                        }
+        
+                        names = "";//readInNames("learner");
+        
+                        if (Mod10Week2Sprint.isNull(names) == true) {
+                            return;
+                        }
+        
+                        surname = "";//readInSurname("learner");
+        
+                        if (Mod10Week2Sprint.isNull(surname) == true) {
+                            return;
+                        }
+        
+                        dob = "";//readInBirthdate();
+        
+                        if (Mod10Week2Sprint.isNull(dob) == true) {
+                            return;
+                        }
+        
+                        gender = "";//readInGender();
+        
+                        if (Mod10Week2Sprint.isNull(gender) == true) {
+                            return;
+                        }
+        
+                        grade = 0;//readInGrade();
+        
+                        if (Mod10Week2Sprint.isNull(String.valueOf(grade)) == true) {
+                            return;
+                        }
+        
+                        /*sql = "INSERT INTO learner_tbl( parent_id, names, last_name, date_of_birth, gender, grade ) VALUES('" + parentID +
+                        "','" + names +
+                        "','"+ surname +"','"+ dob +"','"+ gender +"','"+ grade +"')";*/
+        
+                            sql = "UPDATE learner_tbl SET " + 
+                            "parent_id = " + parentID + ", names = " + names + ", " + 
+                            "last_name = " + surname + ", date_of_birth = " + dob + ", " + 
+                            "gender = " + gender + ", grade = " + grade + " WHERE learner_id = " + Mod10Week2Sprint.recordID;
+                        
+        
+                            break;
+                        case "parent_tbl":
+        
+                            userName = "";
+        
+                            if (Mod10Week2Sprint.isNull(userName) == true) {
+                                return;
+                            }
+        
+                            passWord = "";
+        
+                            if (Mod10Week2Sprint.isNull(passWord) == true) {
+                                return;
+                            }
+        
+                            names = "";//readInNames("parent");
+        
+                            if (Mod10Week2Sprint.isNull(names) == true) {
+                                return;
+                            }
+        
+                            surname = "";//readInSurname("parent");
+        
+                            if (Mod10Week2Sprint.isNull(surname) == true) {
+                                return;
+                            }
+        
+                            address = "";//readInAddress();
+        
+                            if (Mod10Week2Sprint.isNull(address) == true) {
+                                return;
+                            }
+        
+                            contactNo = "";//readInContactNo();
+        
+                            if (Mod10Week2Sprint.isNull(contactNo) == true) {
+                                return;
+                            }
+        
+                            numChildren = 0;//readInNumChildren();
+        
+                            if (Mod10Week2Sprint.isNull(String.valueOf(numChildren)) == true) {
+                                return;
+                            }
+                            
+                            /*sql = "INSERT INTO parent_tbl(names, last_name, address, contact_no, num_children) VALUES('"+ names +
+                            "','"+ surname +"','"+ address +"','"+ contactNo +"','"+ numChildren +"')";*/  
+        
+                            sql = "UPDATE parent_tbl SET " + 
+                            "names = " + names + ", " + 
+                            "last_name = " + surname + ", address = " + address + ", " + 
+                            "contact_no = " + contactNo + ", num_children = " + numChildren + 
+                            ", username = " + userName + ", password = " + passWord + 
+                            " WHERE parent_id = " + Mod10Week2Sprint.recordID;
+                            break;
+                        case "teacher_tbl":
+        
+                            userName = "";
+        
+                            if (Mod10Week2Sprint.isNull(userName) == true) {
+                                return;
+                            }
+        
+                            passWord = "";
+        
+                            if (Mod10Week2Sprint.isNull(passWord) == true) {
+                                return;
+                            }
+        
+                            /*sql = "INSERT INTO teacher_tbl(username, password) VALUES('"+ username +
+                            "','"+ password +"')";*/
+                            
+                            sql = "UPDATE teacher SET " +
+                            "names = " + names + ", " + 
+                            "last_name = " + surname + ", address = " + address + ", " + 
+                            "contact_no = " + contactNo + 
+                            "username = " + userName + ", " + 
+                            "password = " + passWord + " WHERE teacher_id = " + Mod10Week2Sprint.recordID;
+        
+                            break;
+                    }
+        
+        
+                    Statement stmt = conn.createStatement();
+            
+            
+                    stmt.executeUpdate(sql);
+        
+                    conn.close();
+        
+                } catch (Exception e) {
+                    System.out.println("An error has occurred.");
+                    e.printStackTrace();
+                }
+        
+            }
+        
+        
 }
