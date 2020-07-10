@@ -109,7 +109,7 @@ public class LogInFrame extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        );  
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -120,7 +120,9 @@ public class LogInFrame extends javax.swing.JFrame {
         Mod10Week2Sprint.username = tfUsername.getText();
         Mod10Week2Sprint.password = tfPassword.getText();
         
-        if (Mod10Week2Sprint.recordExists("login") == true) {
+        //if (Mod10Week2Sprint.recordExists("login") == true) {
+
+        if (Mod10Week2Sprint.loginSearch() == true) {
              OptionFrame options = new OptionFrame();
              options.setVisible(true);
 

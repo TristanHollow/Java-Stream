@@ -168,6 +168,8 @@ public class learnerFrame extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        btnUpdate.setVisible(false);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -177,6 +179,7 @@ public class learnerFrame extends javax.swing.JFrame {
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         // TODO add your handling code here:
+        tableInsertRecords();
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -410,6 +413,189 @@ public class learnerFrame extends javax.swing.JFrame {
                 }
         
             }
+
+
+
+                    ////insert TRUE
+
+        public static void tableInsertRecords(){
+            Connection conn = null;
+    
+            String sql = "";
+                //learner + parent
+                String names = "";
+                String surname = "";
+                //parent
+                /*String userName = "";
+                String passWord = "";
+                String address = "";
+                String contactNo = "";
+                int numChildren = 0;*/
+                //learner
+                String dob = "";
+                String gender = "";
+                int grade = 0;
+                int parentID = 0;
+    
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + Mod10Week2Sprint.databaseName,"root","root");
+    
+    
+                switch (Mod10Week2Sprint.table) {
+                    case "learner_tbl":
+    
+                    parentID = Integer.valueOf(tfParentID.getText());
+    
+                    if (Mod10Week2Sprint.isNull(String.valueOf(parentID)) == true) {
+                        return;
+                    }
+    
+                    names = tfName.getText();
+    
+                    if (Mod10Week2Sprint.isNull(names) == true) {
+                        return;
+                    }
+    
+                    surname = tfSurname.getText();
+    
+                    if (Mod10Week2Sprint.isNull(surname) == true) {
+                        return;
+                    }
+    
+                    dob = tfDOB.getText();
+    
+                    if (Mod10Week2Sprint.isNull(dob) == true) {
+                        return;
+                    }
+    
+                    gender = tfGender.getText();
+    
+                    if (Mod10Week2Sprint.isNull(gender) == true) {
+                        return;
+                    }
+    
+                    grade = Integer.parseInt(tfGrade.getText());
+    
+                    if (Mod10Week2Sprint.isNull(String.valueOf(grade)) == true) {
+                        return;
+                    }
+    
+                    sql = "INSERT INTO learner_tbl( parent_id, names, last_name, date_of_birth, gender, grade ) VALUES('" + parentID +
+                    "','" + names +
+                    "','"+ surname +"','"+ dob +"','"+ gender +"','"+ grade +"')";
+    
+                        break;
+                    
+                    /*case "parent_tbl":
+    
+                        userName = tfUsername.getText();
+    
+                        if (Mod10Week2Sprint.isNull(userName) == true) {
+                            return;
+                        }
+    
+                        passWord = tfPassword.getText();
+    
+                        if (Mod10Week2Sprint.isNull(passWord) == true) {
+                            return;
+                        }
+    
+                        names = tfName.getText();
+    
+                        if (Mod10Week2Sprint.isNull(names) == true) {
+                            return;
+                        }
+    
+                        surname = tfSurname.getText();
+    
+                        if (Mod10Week2Sprint.isNull(surname) == true) {
+                            return;
+                        }
+    
+                        address = tfAddress.getText();
+    
+                        if (Mod10Week2Sprint.isNull(address) == true) {
+                            return;
+                        }
+    
+                        contactNo = tfContactNo.getText();
+    
+                        if (Mod10Week2Sprint.isNull(contactNo) == true) {
+                            return;
+                        }
+    
+                        numChildren = Integer.valueOf(tfNumChildren.getText());
+    
+                        if (Mod10Week2Sprint.isNull(String.valueOf(numChildren)) == true) {
+                            return;
+                        }
+                        
+                        sql = "INSERT INTO parent_tbl(names, last_name, address, contact_no, num_children, username, password) VALUES('"+ names +
+                        "','"+ surname +"','"+ address +"','"+ contactNo +"','"+ numChildren +"','"+ userName +"','"+ passWord +"')";    
+    
+                        break;
+                    case "teacher_tbl":
+    
+                    userName = tfUsername.getText();
+    
+                    if (Mod10Week2Sprint.isNull(userName) == true) {
+                        return;
+                    }
+
+                    passWord = tfPassword.getText();
+
+                    if (Mod10Week2Sprint.isNull(passWord) == true) {
+                        return;
+                    }
+
+                    names = tfName.getText();
+
+                    if (Mod10Week2Sprint.isNull(names) == true) {
+                        return;
+                    }
+
+                    surname = tfSurname.getText();
+
+                    if (Mod10Week2Sprint.isNull(surname) == true) {
+                        return;
+                    }
+
+                    address = tfAddress.getText();
+
+                    if (Mod10Week2Sprint.isNull(address) == true) {
+                        return;
+                    }
+
+                    contactNo = tfContactNo.getText();
+
+                    if (Mod10Week2Sprint.isNull(contactNo) == true) {
+                        return;
+                    }
+    
+                        
+                        sql = "INSERT INTO teacher_tbl(names, last_name, address, contact_no, username, password) VALUES('"+ names +
+                        "','"+ surname +"','"+ address +"','"+ contactNo +"','"+ userName +"','"+ passWord +"')"; 
+    
+                        break;*/
+                }
+    
+    
+                Statement stmt = conn.createStatement();
+        
+        
+                stmt.executeUpdate(sql);
+    
+                conn.close();
+    
+            } catch (Exception e) {
+                System.out.println("An error has occurred.");
+                e.printStackTrace();
+            }
+    
+        }
+    
+      
         
         
 }

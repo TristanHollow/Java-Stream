@@ -265,11 +265,21 @@ switch (Mod10Week2Sprint.loginPerson){
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
 
-        if (Mod10Week2Sprint.recordExists("default") == true) {
-            System.out.println("Found the person");
-            tablePrintRecords("default");
-        } else {
-            System.out.println("Unfound the person");
+
+        int originalID = Mod10Week2Sprint.recordID;
+        int replacement = Mod10Week2Sprint.getRecordID();
+
+
+        if (Mod10Week2Sprint.testRecord(String.valueOf(replacement)) == true) {
+            Mod10Week2Sprint.recordID = replacement;
+            if (Mod10Week2Sprint.recordExists("default") == true) {
+                System.out.println("Found the person");
+                tablePrintRecords("search");
+            } else {
+
+                Mod10Week2Sprint.recordID = originalID;
+                System.out.println("Unfound the person");
+            }
         }
 
     }//GEN-LAST:event_btnSearchActionPerformed
@@ -278,7 +288,7 @@ switch (Mod10Week2Sprint.loginPerson){
         // TODO add your handling code here:
 
         Mod10Week2Sprint.table = "learner_tbl";
-        tablePrintRecords("login");
+        tablePrintRecords("default");
 
     }//GEN-LAST:event_btnLearnerActionPerformed
 
@@ -286,7 +296,7 @@ switch (Mod10Week2Sprint.loginPerson){
         // TODO add your handling code here:
 
         Mod10Week2Sprint.table = "parent_tbl";
-        tablePrintRecords("login");
+        tablePrintRecords("default");
 
     }//GEN-LAST:event_btnParentActionPerformed
 
@@ -294,7 +304,7 @@ switch (Mod10Week2Sprint.loginPerson){
         // TODO add your handling code here:
 
         Mod10Week2Sprint.table = "teacher_tbl";
-        tablePrintRecords("login");
+        tablePrintRecords("default");
 
     }//GEN-LAST:event_btnTeacherActionPerformed
 
@@ -362,7 +372,6 @@ switch (Mod10Week2Sprint.loginPerson){
 
         int originalID = Mod10Week2Sprint.recordID;
         int replacement = Mod10Week2Sprint.getRecordID();
-
 
 
         if (Mod10Week2Sprint.testRecord(String.valueOf(replacement)) == true) {
@@ -447,8 +456,8 @@ switch (Mod10Week2Sprint.loginPerson){
             //latest version
 
 
-            Statement stmt = conn.createStatement();
-            ResultSet result = stmt.executeQuery(sql);
+            Statement stmt;// = conn.createStatement();
+            ResultSet result;// = stmt.executeQuery(sql);
 
             DefaultTableModel model = new DefaultTableModel(new String[]{"Learner ID", "Parent ID", "Name", "Surname", "Date of Birth", "Gender", "Grade"}, 0);
 
@@ -461,11 +470,15 @@ switch (Mod10Week2Sprint.loginPerson){
                     if (Mod10Week2Sprint.loginPerson.equals("parent")) {
                         sql = "SELECT learner_id, parent_id, names, last_name, date_of_birth, gender, grade FROM learner_tbl " + 
                         "WHERE(parent_id = " + Mod10Week2Sprint.loginID+")";
-                    } else if (Mod10Week2Sprint.loginPerson.equals("teacher")) {
+                    } else
+                     if (Mod10Week2Sprint.loginPerson.equals("teacher")) {
                         sql = "SELECT * FROM learner_tbl";
                     } else if (Mod10Week2Sprint.loginPerson.equals("admin")) {
                         sql = "SELECT * FROM learner_tbl";
                     }
+
+                        stmt = conn.createStatement();
+                        result = stmt.executeQuery(sql);
 
                     while(result.next()) {
 
@@ -479,7 +492,7 @@ switch (Mod10Week2Sprint.loginPerson){
                 
                         model.addRow(new Object[]{learnerID, parentID, name, surname, birthdate, gender, grade});
                     }
-
+                        
                 } else if (Mod10Week2Sprint.table.equals("parent_tbl")) {
 
                     
@@ -488,7 +501,10 @@ switch (Mod10Week2Sprint.loginPerson){
                         
                         model = new DefaultTableModel(new String[]{"Parent ID", "Name", "Surname", "Address", "Contact No", "Number of Children"}, 0);
                         
-                        sql = "SELECT  FROM parent_tbl";
+                        sql = "SELECT * FROM parent_tbl";
+
+                        stmt = conn.createStatement();
+                        result = stmt.executeQuery(sql);
 
                         while (result.next()) {
                             String parentID = String.valueOf(result.getInt("parent_id"));
@@ -507,6 +523,9 @@ switch (Mod10Week2Sprint.loginPerson){
 
                         sql = "SELECT * FROM parent_tbl";
 
+                        stmt = conn.createStatement();
+                        result = stmt.executeQuery(sql);
+
                         while (result.next()) {
                             String parentID = String.valueOf(result.getInt("parent_id"));
                             String name = result.getString("names");
@@ -521,24 +540,33 @@ switch (Mod10Week2Sprint.loginPerson){
                         }
                     }
 
-                    
+                    jTable1.setModel(model);
 
                 } else if (Mod10Week2Sprint.table.equals("teacher_tbl")) {
                     if (Mod10Week2Sprint.loginPerson.equals("admin")) {
 
-                        model = new DefaultTableModel(new String[]{"Teacher ID", "Username", "Password"}, 0);
+                        model = new DefaultTableModel(new String[]{"Teacher ID", "Name", "Surname", "Address", "Contact No", "Username", "Password"}, 0);
 
                         sql = "SELECT * FROM teacher_tbl";
 
+                        stmt = conn.createStatement();
+                        result = stmt.executeQuery(sql);
+
                         while (result.next()) {
-                            String teacherID = String.valueOf(result.getInt("parent_id"));
+                            String teacherID = String.valueOf(result.getInt("teacher_id"));
+                            String name = result.getString("names");
+                            String surname = result.getString("last_name");
+                            String address = result.getString("address");
+                            String contactNo = result.getString("contact_no");
                             String usernameModel = result.getString("username");
                             String passwordModel = result.getString("password");
 
-                            model.addRow(new Object[]{teacherID, usernameModel, passwordModel});
+                            model.addRow(new Object[]{teacherID, name, surname, address, contactNo, usernameModel, passwordModel});
                         }
                     }
                 }
+
+                
 
             } else if (input.equals("search")) { //search button
 
@@ -557,6 +585,9 @@ switch (Mod10Week2Sprint.loginPerson){
                                 sql = "SELECT * FROM learner_tbl";
                             }
         
+                            stmt = conn.createStatement();
+                     result = stmt.executeQuery(sql);
+
                             if(result.next()) {
         
                                 String learnerID = String.valueOf(result.getInt("learner_id"));
@@ -578,6 +609,9 @@ switch (Mod10Week2Sprint.loginPerson){
                                 
                                 sql = "SELECT * FROM parent_tbl";
         
+                                stmt = conn.createStatement();
+                                result = stmt.executeQuery(sql);
+
                                 if (result.next()) {
                                     String parentID = String.valueOf(result.getInt("parent_id"));
                                     String name = result.getString("names");
@@ -595,6 +629,9 @@ switch (Mod10Week2Sprint.loginPerson){
         
                                 sql = "SELECT * FROM parent_tbl";
         
+                                stmt = conn.createStatement();
+                                result = stmt.executeQuery(sql);
+
                                 if (result.next()) {
                                     String parentID = String.valueOf(result.getInt("parent_id"));
                                     String name = result.getString("names");
@@ -612,16 +649,23 @@ switch (Mod10Week2Sprint.loginPerson){
                         } else if (Mod10Week2Sprint.table.equals("teacher_tbl")) {
                             if (Mod10Week2Sprint.loginPerson.equals("admin")) {
 
-                                model = new DefaultTableModel(new String[]{"Teacher ID", "Username", "Password"}, 0);
+                                model = new DefaultTableModel(new String[]{"Teacher ID", "Name", "Surname", "Address", "Contact No", "Username", "Password"}, 0);
         
                                 sql = "SELECT * FROM teacher_tbl";
         
+                                stmt = conn.createStatement();
+                                result = stmt.executeQuery(sql);
+
                                 if (result.next()) {
-                                    String teacherID = String.valueOf(result.getInt("parent_id"));
+                                    String teacherID = String.valueOf(result.getInt("teacher_id"));
+                                    String name = result.getString("names");
+                                    String surname = result.getString("last_name");
+                                    String address = result.getString("address");
+                                    String contactNo = result.getString("contact_no");
                                     String usernameModel = result.getString("username");
                                     String passwordModel = result.getString("password");
-        
-                                    model.addRow(new Object[]{teacherID, usernameModel, passwordModel});
+
+                                    model.addRow(new Object[]{teacherID, name, surname, address, contactNo, usernameModel, passwordModel});
                                 }
                             
                             }

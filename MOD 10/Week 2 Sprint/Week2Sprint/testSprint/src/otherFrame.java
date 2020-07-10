@@ -173,6 +173,30 @@ public class otherFrame extends javax.swing.JFrame {
                 .addGap(29, 29, 29))
         );
 
+        btnUpdate.setVisible(false);
+
+        switch (Mod10Week2Sprint.table) {
+            case "parent_tbl":
+                lblChildrenEnrolled.setVisible(true);
+                tfNumChildren.setVisible(true);
+                lblTeacherID.setVisible(false);
+                tfTeacherID.setVisible(false);
+                lblParentID.setVisible(true);
+                tfParentID.setVisible(true);
+                break;
+            case "teacher_tbl":
+                lblChildrenEnrolled.setVisible(false);
+                tfNumChildren.setVisible(false);
+                lblTeacherID.setVisible(true);
+                tfTeacherID.setVisible(true);
+                lblParentID.setVisible(false);
+                tfParentID.setVisible(false);
+                break;
+            default:
+                break;
+        }
+
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 

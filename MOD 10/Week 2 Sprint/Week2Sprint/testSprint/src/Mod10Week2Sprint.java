@@ -6,12 +6,12 @@ import java.sql.Statement;
 */
 import java.sql.*;
 
-import javax.swing.JFrame;
+//import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
+//import javax.swing.JPanel;
+//import javax.swing.JScrollPane;
+//import javax.swing.JTable;
+//import javax.swing.table.DefaultTableModel;
 
 
 
@@ -981,7 +981,8 @@ public class Mod10Week2Sprint {
                 }
 
              }
-            else if ((bParent == true) && (bTeacher == true) && (bAdmin == false)) {
+            //else 
+            if ((bParent == true) && (bTeacher == true) && (bAdmin == false)) {
                 conn = null;
                try { 
                 
@@ -990,7 +991,7 @@ public class Mod10Week2Sprint {
                 conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databaseName,"root","root");
 
 
-                sql = "SELECT COUNT(1) FROM parent_tbl WHERE(username = "+ username + " AND password = " + password + ")";
+                sql = "SELECT COUNT(1), parent_id FROM parent_tbl WHERE username = '"+ username + "' AND password = '" + password + "'";
                 
 
                 Statement stmt = conn.createStatement();
@@ -1000,6 +1001,7 @@ public class Mod10Week2Sprint {
                     int i = result.getInt(1);
                     if (i == 1) {
                         loginPerson = "parent";
+                        loginID = result.getInt("parent_id");
                         return true;
                         
                     } else {
@@ -1012,7 +1014,8 @@ public class Mod10Week2Sprint {
                 } catch (Exception e) {
                     //TODO: handle exception
                     }
-            } else if ((bParent == false) && (bTeacher == true) && (bAdmin == false)) {
+            } //else 
+            if ((bParent == false) && (bTeacher == true) && (bAdmin == false)) {
                 conn = null;
                 try { 
                     
@@ -1020,7 +1023,7 @@ public class Mod10Week2Sprint {
                  conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databaseName,"root","root");
  
  
-                 sql = "SELECT COUNT(1) FROM teacher_tbl WHERE(username = "+ username + " AND password = " + password + ")";
+                 sql = "SELECT COUNT(1), teacher_id FROM teacher_tbl WHERE(username = '"+ username + "' AND password = '" + password + "')";
                  
  
                  Statement stmt = conn.createStatement();
@@ -1030,6 +1033,7 @@ public class Mod10Week2Sprint {
                      int i = result.getInt(1);
                      if (i == 1) {
                          loginPerson = "teacher";
+                         loginID = result.getInt("teacher_id");
                          return true;
                          
                      } else {
@@ -1071,7 +1075,7 @@ public class Mod10Week2Sprint {
 
             String sql = "";
 
-            if (input.equals("login")) {
+           /* if (input.equals("login")) {
                 if ((loginSearch() == true) && (loginPerson.equals("parent"))) {
                     sql = "SELECT parent_id FROM parent_tbl WHERE(username = "+ username + " AND password = " + password + ")";
                 } else if ((loginSearch() == true) && (loginPerson.equals("teacher"))) {
@@ -1082,10 +1086,11 @@ public class Mod10Week2Sprint {
                 }
                 else {
                     //JOptionPane.showMessageDialog(null, "Invalid username/password.");
+                    conn.close();
                     return false;
                 }
 
-            }
+            }*/
 
 /*
     add short method to iterate through tables when calles by recordExists("login")
@@ -1127,7 +1132,9 @@ public class Mod10Week2Sprint {
                         return false;
                 }
 
-            }*/else if (input.equals("default")) {
+            } else*/ 
+            
+            if (input.equals("default")) {
                 switch(table) {
                     case "learner_tbl":
                         sql = "SELECT COUNT(1) FROM learner_tbl WHERE(learner_id = "+ recordID +")";
@@ -1173,7 +1180,7 @@ public class Mod10Week2Sprint {
             ResultSet result = stmt.executeQuery(sql);
 
 
-            if (input.equals("login")) {
+            /*if (input.equals("login") && (result.next())) {
             switch (loginPerson) {
                 case "parent":
                     loginID = result.getInt("parent_id");
@@ -1187,7 +1194,7 @@ public class Mod10Week2Sprint {
                     bExists = true;
                     break;
                 }
-            } 
+            } */
             if (input.equals("default")) {
             if (result.next()) {
                 int i = result.getInt(1);
