@@ -174,23 +174,25 @@ public class otherFrame extends javax.swing.JFrame {
         );
 
         btnUpdate.setVisible(false);
+        lblTeacherID.setVisible(false);
+        tfTeacherID.setVisible(false);
+        lblParentID.setVisible(false);
+        tfParentID.setVisible(false);
 
         switch (Mod10Week2Sprint.table) {
             case "parent_tbl":
                 lblChildrenEnrolled.setVisible(true);
                 tfNumChildren.setVisible(true);
-                lblTeacherID.setVisible(false);
-                tfTeacherID.setVisible(false);
-                lblParentID.setVisible(true);
-                tfParentID.setVisible(true);
+                
+                //lblParentID.setVisible(true);
+                //tfParentID.setVisible(true);
                 break;
             case "teacher_tbl":
                 lblChildrenEnrolled.setVisible(false);
                 tfNumChildren.setVisible(false);
-                lblTeacherID.setVisible(true);
-                tfTeacherID.setVisible(true);
-                lblParentID.setVisible(false);
-                tfParentID.setVisible(false);
+                //lblTeacherID.setVisible(true);
+                //tfTeacherID.setVisible(true);
+                
                 break;
             default:
                 break;
@@ -623,7 +625,7 @@ public class otherFrame extends javax.swing.JFrame {
                                 return;
                             }
                             
-                            sql = "UPDATE teacher SET " +
+                            sql = "UPDATE teacher_tbl SET " +
                             "names = " + names + ", " + 
                             "last_name = " + surname + ", address = " + address + ", " + 
                             "contact_no = " + contactNo + 

@@ -231,6 +231,10 @@ public class OptionFrame extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+Mod10Week2Sprint.table = "learner_tbl";
+Mod10Week2Sprint.person = "learner";
+tablePrintRecords("default");
+
 switch (Mod10Week2Sprint.loginPerson){
     case "parent":
         btnCreate.setVisible(false);
@@ -263,8 +267,6 @@ switch (Mod10Week2Sprint.loginPerson){
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        // TODO add your handling code here:
-
 
         int originalID = Mod10Week2Sprint.recordID;
         int replacement = Mod10Week2Sprint.getRecordID();
@@ -273,51 +275,42 @@ switch (Mod10Week2Sprint.loginPerson){
         if (Mod10Week2Sprint.testRecord(String.valueOf(replacement)) == true) {
             Mod10Week2Sprint.recordID = replacement;
             if (Mod10Week2Sprint.recordExists("default") == true) {
-                System.out.println("Found the person");
+                //System.out.println("Found the person");
                 tablePrintRecords("search");
             } else {
 
                 Mod10Week2Sprint.recordID = originalID;
-                System.out.println("Unfound the person");
+                //System.out.println("Unfound the person");
             }
         }
 
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnLearnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLearnerActionPerformed
-        // TODO add your handling code here:
 
+        Mod10Week2Sprint.person = "learner";
         Mod10Week2Sprint.table = "learner_tbl";
         tablePrintRecords("default");
 
     }//GEN-LAST:event_btnLearnerActionPerformed
 
     private void btnParentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnParentActionPerformed
-        // TODO add your handling code here:
 
+        Mod10Week2Sprint.person = "parent";
         Mod10Week2Sprint.table = "parent_tbl";
         tablePrintRecords("default");
 
     }//GEN-LAST:event_btnParentActionPerformed
 
     private void btnTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTeacherActionPerformed
-        // TODO add your handling code here:
 
+        Mod10Week2Sprint.person = "teacher";
         Mod10Week2Sprint.table = "teacher_tbl";
         tablePrintRecords("default");
 
     }//GEN-LAST:event_btnTeacherActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
-
-        // if (Mod10Week2Sprint.table.equals("learner_tbl")) {
-        //     learnerFrame learnframe = new learnerFrame();
-        //     learnframe.setVisible(true);
-        // } else if (Mod10Week2Sprint.table.equals("parent_tbl") || Mod10Week2Sprint.table.equals("teacher_tbl")) {
-        //     otherFrame oFrame = new otherFrame();
-        //     oFrame.setVisible(true);
-        // }
 
         int originalID = Mod10Week2Sprint.recordID;
         int replacement = Mod10Week2Sprint.getRecordID();
@@ -348,7 +341,6 @@ switch (Mod10Week2Sprint.loginPerson){
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
-        // TODO add your handling code here:
 
         if (Mod10Week2Sprint.table.equals("learner_tbl")) {
             learnerFrame learnframe = new learnerFrame();
@@ -361,14 +353,12 @@ switch (Mod10Week2Sprint.loginPerson){
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-        // TODO add your handling code here:
 
         Mod10Week2Sprint.tableCreate();
     
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
 
         int originalID = Mod10Week2Sprint.recordID;
         int replacement = Mod10Week2Sprint.getRecordID();
@@ -378,6 +368,7 @@ switch (Mod10Week2Sprint.loginPerson){
             Mod10Week2Sprint.recordID = replacement;
             if (Mod10Week2Sprint.recordExists("default") == true) {
                 Mod10Week2Sprint.tableDeleteRecords();
+                tablePrintRecords("default");
             } else {
 
                 Mod10Week2Sprint.recordID = originalID;
@@ -570,7 +561,7 @@ switch (Mod10Week2Sprint.loginPerson){
 
             } else if (input.equals("search")) { //search button
 
-                if (Mod10Week2Sprint.testRecord(String.valueOf( Mod10Week2Sprint.getRecordID() )) == true) {
+                if (Mod10Week2Sprint.testRecord(String.valueOf( Mod10Week2Sprint.recordID)) == true) {
                     if (Mod10Week2Sprint.recordExists("default") == true) {
 
                         if (Mod10Week2Sprint.table.equals("learner_tbl")) {
@@ -586,7 +577,7 @@ switch (Mod10Week2Sprint.loginPerson){
                             }
         
                             stmt = conn.createStatement();
-                     result = stmt.executeQuery(sql);
+                            result = stmt.executeQuery(sql);
 
                             if(result.next()) {
         
