@@ -169,7 +169,8 @@ public class learnerFrame extends javax.swing.JFrame {
         );
 
         btnUpdate.setVisible(false);
-
+            tfLearnerID.setVisible(false);
+            lblLearnerID.setVisible(false);
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -180,6 +181,7 @@ public class learnerFrame extends javax.swing.JFrame {
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         // TODO add your handling code here:
         tableInsertRecords();
+        OptionFrame.tablePrintRecords("default");
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
