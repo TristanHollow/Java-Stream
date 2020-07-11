@@ -210,7 +210,7 @@ public class otherFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         tableInsertRecords();
-
+        OptionFrame.tablePrintRecords("default");
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
