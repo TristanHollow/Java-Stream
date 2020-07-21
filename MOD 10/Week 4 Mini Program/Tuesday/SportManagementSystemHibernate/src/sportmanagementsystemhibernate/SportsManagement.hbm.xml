@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 21, 2020 12:10:10 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="sportmanagementsystemhibernate.SportsManagement" table="sports_management" catalog="sports" optimistic-lock="version">
+        <id name="employeeId" type="int">
+            <column name="employee_id" />
+            <generator class="assigned" />
+        </id>
+    </class>
+</hibernate-mapping>

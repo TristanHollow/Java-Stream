@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 21, 2020 12:10:10 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="sportmanagementsystemhibernate.SportsClub" table="sports_club" catalog="sports" optimistic-lock="version">
+        <id name="sportType" type="string">
+            <column name="sport_type" length="45" />
+            <generator class="assigned" />
+        </id>
+        <property name="age" type="int">
+            <column name="age" not-null="true" />
+        </property>
+        <property name="wins" type="int">
+            <column name="wins" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
