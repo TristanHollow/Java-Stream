@@ -1,25 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package mod103_week1_day2_act1;
 
-/**
- *
- * @author John
- */
-public class Mod103_Week1_Day2_Act1 {
+package mod_103_week_1_day_2_act_1;
 
-    /**
-     * @param args the command line arguments
-     */
+public class Mod_103_Week_1_Day_2_Act_1 {
+
     public static void main(String[] args) {
         
-        A studA = new A(78, 64, 45);
+        A studA = new A(72, 48, 90);
         studA.getPercentage();
         
-        B studB = new B(78, 64, 45, 88);
+        B studB = new B(65, 77, 81, 78);
         studB.getPercentage();
     }
     
@@ -38,8 +27,8 @@ class A extends Marks{
     @Override
     void getPercentage() {
         double percentage = ((double)mark1+(double)mark2+(double)mark3)/(double)3;
-        System.out.println("Student A has an average of: "+String.format("%1.1f",percentage)+"% for 3 subjects.");//percentage);
-                //
+        System.out.println("Student A has an average of: "+String.format("%1.1f",percentage)+"% for 3 subjects.");
+                
     }
      
     
